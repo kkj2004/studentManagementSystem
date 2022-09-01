@@ -1,0 +1,88 @@
+USE master
+go
+
+CREATE DATABASE  DB_ST  
+go
+
+USE DB_ST
+Go
+
+CREATE TABLE Student          
+	   (Sno   CHAR(9) PRIMARY KEY, /* 列级完整性约束条件*/                  
+            Sname  CHAR(20) UNIQUE,     /* Sname取唯一值*/
+            Ssex    CHAR(2),
+            Sage   SMALLINT,
+            Sdept  CHAR(20)
+           )
+
+CREATE TABLE  Course
+               ( Cno       CHAR(4) PRIMARY KEY,
+                 Cname  CHAR(40),            
+                 Cpno     CHAR(4) ,               	                      
+                 Ccredit  SMALLINT,
+                FOREIGN KEY (Cpno) REFERENCES  Course(Cno) 
+            )
+
+CREATE TABLE  SC
+       	(Sno  CHAR(9), 
+       	Cno  CHAR(4),  
+       	Grade    SMALLINT,
+       	PRIMARY KEY (Sno,Cno),  
+                     /* 主码由两个属性构成，必须作为表级完整性进行定义*/
+       	FOREIGN KEY (Sno) REFERENCES Student(Sno),
+                    /* 表级完整性约束条件，Sno是外码，被参照表是Student */
+       	FOREIGN KEY (Cno) REFERENCES Course(Cno)
+                   /* 表级完整性约束条件， Cno是外码，被参照表是Course*/
+		)
+
+SELECT  *
+FROM Student;
+
+SELECT  *
+FROM Course;
+
+SELECT  *
+FROM SC;
+
+INSERT
+          INTO  Student (Sno,Sname,Ssex,Sage,Sdept)
+          VALUES ('200215129','张三','男',18,'IS');
+          
+insert into Student(Sno,Sname,Ssex,Sage,Sdept)
+	   values('200212130','李四','女',20,'CS');
+	   
+INSERT
+          INTO  Student (Sno,Sname,Ssex,Sage,Sdept)
+          VALUES ('200215131','王五','男',18,'IS');
+
+	   
+insert into Course
+VALUES('1','C语言',NULL,3);
+
+insert into Course
+VALUES('2','数据结构','1',4);
+
+insert into Course
+VALUES('3','数据库','2',3);
+
+INSERT
+    INTO SC
+    VALUES ('200215129','2',NULL);
+    
+INSERT
+    INTO SC
+    VALUES ('200212130','1',NULL);
+    
+INSERT
+    INTO SC
+    VALUES ('200215131','3',NULL);
+    
+
+
+SELECT * FROM SC;
+SELECT  *
+FROM Student;
+
+SELECT  *
+FROM Course;
+
